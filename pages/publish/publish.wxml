@@ -1,0 +1,39 @@
+<view class='content_fb'>
+  <form bindsubmit="formSubmit" bindreset="formReset">
+    <textarea class='textareas' name="textarea" placeholder="请输入内容" value='{{textarea_val}}' maxlength='800' placeholder='请输入内容'></textarea>
+    <view class='img_value'>
+      <block wx:for="{{imageList}}" wx:for-index="idx" wx:for-item="itemName" wx:key="">
+        <view class='content_up_del'>
+          <image bindtap='yulian_select_img' id="{{imageList[idx]}}" class='up_imgs' wx:if="{{imageList[idx]==''?content_up_del_if:true}}" src="{{imageList[idx]}}"></image>
+          <image bindtap='del_imgs' class='del_imgs' id="{{imageList[idx]}}" src="../../images/del_img.png"></image>
+        </view>
+      </block>
+      <image bindtap='select_img' class='select_img' src='../../images/select_img.png' wx:if="{{select_if}}"></image>
+    </view>
+    <!-- todo:定位 -->
+    <!-- <view class='dizhi' bindtap='dizhi'>
+      <image src='../../images/dizhi_img.png'></image>
+      {{dizhis}}
+      <text>{{address}}</text>
+    </view> -->
+    <!-- todo：获取电话号码 -->
+    <!-- <view class='dianhua'>
+      <image src='../../images/dianhua_img.png'></image>
+      <input name="dianhua" value='{{dianhua_val}}' placeholder='{{shurudianhua}}'></input>
+    </view> -->
+    <view class="m-t38 flex">
+      <text>选择文章类型</text>
+      <radio-group bindchange="radioChange" class="m-l15 flex m-t15">
+        <label class="flex m-l15" wx:for="{{logData}}" wx:key="{{item.id}}">
+          <view class="weui-cell__hd">
+            <radio value="{{item.name}}" color="#2a3886" />
+          </view>
+          <view class="weui-cell__bd">{{item.name}}</view>
+        </label>
+      </radio-group>
+    </view>
+    <button formType="submit" disabled="{{btnDisableed}}"  class='fab'>
+      立即发布
+    </button>
+  </form>
+</view>

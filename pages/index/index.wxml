@@ -1,0 +1,102 @@
+<!-- 顶部tab -->
+<view class="swiper-tab" style="width:{{windowWidth}}">
+  <view wx:for="{{tabList}}" class=" {{currentTab==item.name?'active':'swiper-tab-item'}}" data-current="{{item.name}}" bindtap="clickTab" wx:key="id">{{item.name}}</view>
+</view>
+<!-- 轮播图 -->
+<!-- <swiper class="swiper" indicator-dots='true' display-multiple-items='1' current='{{ centerItem }}' bindchange='handleSwiperChange' autoplay='{{false}}' circular='true'>
+  <block wx:for="{{coverList}}" wx:key="id">
+    <swiper-item>
+      <image src="{{item.url}}" mode='aspectFit' />
+    </swiper-item>
+  </block>
+</swiper> -->
+
+
+<swiper current="{{currentTab}}" class="swiper-box scroll" style="height:{{winHeight - 31}}px" bindchange="bindChange" easing-function="easeInOutCubic">
+  <swiper-item>
+    <view class="swiper-tab-content" style="width:{{windowWidth}}">
+      <view wx:for="{{content_tabList}}" class=" {{currentTab2==item.name?'active-content':'swiper-tab-item-content'}}" data-current="{{item.name}}" bindtap="clickTab2" wx:key="id">{{item.name}}</view>
+    </view>
+    <swiper current="{{currentTab2}}" class="swiper-box" style="height:{{winHeight - 31}}px">
+      <swiper-item>
+        <view class='content'>
+          <block wx:for="{{datas}}" wx:for-index="id" wx:for-item="dataName" wx:key="datas_key">
+            <view class='content_content'>
+              <view class='yonghuxinxi'>
+                <image src="{{dataName.avatar}}"></image>
+                <view class='yonghux_img'>
+                  <text>{{dataName.userName}}</text>
+                  
+                </view>
+                <!-- <view bindtap='boda' id='{{dataName.haoma}}' class='lianxita'>联系他</view> -->
+              </view>
+              <navigator url="../detail/detail?id={{dataName.id}}" hover-class="navigator-hover">
+                <view class='content_value'>
+                  <view class='content_value_01'>
+                    <text class='content_value_title'>#{{dataName.tag_val}}#</text>
+                    <text>{{dataName.content}}</text>
+                  </view>
+                </view>
+                <view class='content_imgs' wx:if="{{dataName.content_imgs== '' ?false:true}}">
+                  <image bindtap='bindtap_img' wx:if="{{dataName.content_imgs[0]=='' ? false : true}}" src="{{dataName.content_imgs[0]}}"></image>
+                  <image bindtap='bindtap_img' wx:if="{{dataName.content_imgs[1]=='' ? false : true}}" src="{{dataName.content_imgs[1]}}"></image>
+                  <image bindtap='bindtap_img' wx:if="{{dataName.content_imgs[2]=='' ? false : true}}" src="{{dataName.content_imgs[2]}}"></image>
+                </view>
+              </navigator>
+              <!-- todo:定位 -->
+              <!-- <view wx:if="{{dataName.dizhi=='undefined'?false:true}}" class='fabudizhi'>
+                <image src='../../images/dizhi_img.png'></image>
+                <text>{{dataName.dizhi}}</text>
+              </view> -->
+              <view class='footer_lldf'>
+              <view><text class='times'>{{dataName.times}}</text></view>
+                <view class="flex">
+                  <view class='footer_v'>
+                    <image src='../../images/liulan_img.png'></image>
+                    <block>
+                      <text>{{dataName.views}}</text>
+                    </block>
+                  </view>
+
+                  <view class='footer_v'>
+                    <image src='../../images/ly_img.png'></image>
+                    <text>{{dataName.commit_val}}</text>
+                  </view>
+
+                  <view bindtap='dianzan' id="{{dataName.id}}" class='footer_v'>
+                    <image src='../../images/dianz_img.png'></image>
+                    <text>{{dataName.like_val}}</text>
+                  </view>
+                </view>
+
+
+                <!-- <button open-type="share" id='{{dataName.id}}' data-title='{{dataName.content}}' class='footer_v fenxiang'>
+                  <image src='../../images/fx_img.png'></image>
+                  {{fenxiang}}
+                </button> -->
+              </view>
+            </view>
+          </block>
+        </view>
+      </swiper-item>
+    </swiper>
+
+
+  </swiper-item>
+  <swiper-item>
+    <view class="swiper-tab-content" style="width:{{windowWidth}}">
+      <view wx:for="{{content_tabList}}" class=" {{currentTab2==index?'active-content':'swiper-tab-item-content'}}" data-current="{{index}}" bindtap="clickTab2" wx:key="id">{{item.name}}</view>
+    </view>
+    <swiper current="{{currentTab2}}" class="swiper-box" style="height:{{winHeight - 31}}px">
+      <swiper-item>2222</swiper-item>
+    </swiper>
+  </swiper-item>
+  <swiper-item>
+    <view class="swiper-tab-content" style="width:{{windowWidth}}">
+      <view wx:for="{{content_tabList}}" class=" {{currentTab2==index?'active-content':'swiper-tab-item-content'}}" data-current="{{index}}" bindtap="clickTab2" wx:key="id">{{item.name}}</view>
+    </view>
+    <swiper current="{{currentTab2}}" class="swiper-box" style="height:{{winHeight - 31}}px">
+      <swiper-item>3333</swiper-item>
+    </swiper>
+  </swiper-item>
+</swiper>

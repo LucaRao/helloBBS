@@ -1,0 +1,111 @@
+<block wx:for="{{datas}}" wx:for-index="id" wx:for-item="dataName" wx:key="datas_key">
+  <view class='content_content'>
+    <view>
+      <view>
+        <text class='content_value_title'>#{{dataName.tag_val}}#</text>
+        <text class='liulanliang_4'>
+          {{liulanliangs}}{{views}}
+        </text>
+        <view bindtap='select_del' class='content_del'>
+          <text class='del_'></text>
+        </view>
+      </view>
+      <view class='del_val' wx:if="{{if_del_val}}">
+        <view bindtap='del_' id='{{dataName.id}}' wx:if="{{dataName.userName==name?true:false}}">{{dels}}</view>
+        <view bindtap='jbao'>{{jubao}}</view>
+      </view>
+      <view bindtap='select_del' class='zhezhao' wx:if="{{if_del_val}}"></view>
+    </view>
+    <view class='yonghuxinxi'>
+      <image src="{{dataName.avatar}}"></image>
+      <view class='yonghux_img'>
+        <text class='username'>{{dataName.userName}}</text>
+        <view class='dizhi'>
+          <text class='dizhi_name'>{{dataName.times}}</text>
+        </view>
+      </view>
+    </view>
+    <view class='content_value'>
+      <view class='content_value_01'>
+        <text>{{dataName.content}}</text>
+      </view>
+    </view>
+    <view class='content_imgs' wx:if="{{dataName.content_imgs !=''}}">
+      <image bindtap='bindtap_img' mode="widthFix" wx:for="{{dataName.content_imgs}}" data-id="{{item}}" src="{{item}}"></image>
+    </view>
+    <view class='ping_zhanshi'>
+      <view class='quanbupinglun'>
+        {{quanbupingls}}（{{ly_size}}）
+      </view>
+      <block wx:for="{{comment_content}}" wx:for-index="id" wx:for-item="ping_val_Name" wx:key="ping_val_key">
+        <view class='ping_contents' wx:if="{{ping_val_Name.post_id==dataName.id?true:false}}">
+        <view class="ping_box" bindtap='useame'  wx:if="{{ping_val_Name.comment_content==''?false:true}}" data-hui_useame='{{ping_val_Name.commentator}}' data-id="{{ping_val_Name.id}}" data-hui="{{ping_val_Name.commentator}}">
+          <text class='ping_useame_01' >{{ping_val_Name.commentator}}</text>
+          <!-- <text class='ping_times' wx:if="{{ping_val_Name.comment_content==''?false:true}}">{{ping_val_Name.created_at}}</text> -->
+          <image class='hui_img' src='../../images/ly_img.png'></image>
+          回复
+        </view>
+          
+          <text class='ping_val'>{{ping_val_Name.comment_content}}</text>
+          <block wx:for="{{replyData}}" wx:for-item="hui_val_Name" wx:key="hui_val_key">
+            <view class='huifu_content' wx:if="{{hui_val_Name.comment_id == ping_val_Name.id}}">
+              <text>{{hui_val_Name.responder}}</text>
+              <text class='ping_hui'>回复</text>
+              <text>{{hui_val_Name.commentator}}</text>
+              <text>：{{hui_val_Name.reply_content}}</text>
+            </view>
+          </block>
+        </view>
+      </block>
+    </view>
+
+  </view>
+  <form bindsubmit="ping_form">
+    <view class='ping_content' wx:if="{{if_guanbi}}">
+      <view class='ping_title'>
+        <text>{{pingls}}</text>
+        <text bindtap='ping_guan' class='ping_guanbi'>{{guanbis}}</text>
+      </view>
+      <view class='ping_text'>
+        <textarea name="ping_txt" fixed="true" cursor-spacing='120' placeholder='{{ping_placeholder}}' placeholder-style="font-size:10px;"></textarea>
+      </view>
+      <view class='ping_btn'>
+        <button formType="submit" disabled="{{btnDisableed}}">{{fasongs}}</button>
+      </view>
+    </view>
+  </form>
+  <form bindsubmit="hui_form">
+    <view class='ping_content' wx:if="{{hui_guan}}">
+      <view class='ping_title'>
+        <text>{{pingls}}</text>
+        <text bindtap='hui_guan' class='ping_guanbi'>{{guanbis}}</text>
+      </view>
+      <view class='ping_text'>
+        <textarea name="hui_txt" fixed="true" cursor-spacing='120' placeholder='{{ping_placeholder}}' placeholder-style="font-size:10px;"></textarea>
+      </view>
+      <view class='ping_btn'>
+        <button formType="submit"  disabled="{{btnDisableed}}">{{fasongs}}</button>
+      </view>
+    </view>
+  </form>
+  <!-- footer -->
+  <view class='footer'>
+    <view bindtap='shouye' class='footer_daohang'>
+      <image src='../../images/shouye_img.png'></image>
+      <view>{{shouyes}}</view>
+    </view>
+    <button open-type="share" class='footer_daohang footer_fenxiang' id='{{dataName.id}}' data-title='{{dataName.content}}'>
+      <image src='../../images/fx_img.png'></image>
+      <view>{{fenxiang}}</view>
+    </button>
+    <view bindtap='ping_guan' data-ping="{{dataName.userName}}" class='footer_daohang'>
+      <image src='../../images/ly_img.png'></image>
+      <view>{{pingls}}</view>
+    </view>
+    <view bindtap='dianzan' class='footer_daohang'>
+      <image wx:if="{{!liked}}" class='dianz_img' src='../../images/dianz_img.png'></image>
+      <image wx:if="{{liked}}" class='dianz_img' src='../../images/yidianz_img.png'></image>
+      <view>{{dianzans}}</view>
+    </view>
+  </view>
+</block>
