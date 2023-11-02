@@ -16,7 +16,7 @@ helloBBS是一个可以对生活、学习、问答、情感发出任何表达的
 下载小程序需要的Supabase 小程序客户端
 
 ```sh
-npm install supabase-wechat-stable
+npm install supabase-wechat-stable-v2
 ```
 
 ```js
