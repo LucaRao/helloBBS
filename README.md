@@ -20,7 +20,7 @@ npm install supabase-wechat-stable
 ```
 
 ```js
-import { createClient } from 'supabase-wechat-stable'
+import { createClient } from 'supabase-wechat-stable-v2'
 
 // Create a single supabase client for interacting with your database
 const supabase = createClient('https://xyzcompany.baseapi.memfiredb.com', 'service_role')
