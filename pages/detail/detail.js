@@ -54,12 +54,12 @@ Page({
     const { data, error } = await supabase
       .from('post_list')
       .select('*').eq("id", post_id);
-    if (data && data.data) {
-      data.data.forEach(i => {
+    if (data) {
+      data.forEach(i => {
         i.content_imgs = i.content_imgs ? JSON.parse(i.content_imgs) : '';
         i.times = formatTime(i.times)
       })
-      this.setData({ datas: data.data })
+      this.setData({ datas: data })
     }
   },
   //获取评论数量
@@ -67,17 +67,17 @@ Page({
     const { data, error } = await supabase
       .from('comment')
       .select('*').eq("post_id", post_id).order('created_at');
-    if (data && data.data) {
+    if (data && data) {
       const replyData = await supabase
       .from('reply')
       .select('*');
-      data.data.forEach(i => {
+      data.forEach(i => {
         i.created_at = formatTime(i.created_at)
       })
-      if(replyData && replyData.data){
-        this.setData({ comment_content: data.data, ly_size: data.data.length,replyData:replyData.data.data})
+      if(replyData && replydata){
+        this.setData({ comment_content: data, ly_size: data.length,replyData:replydata.data})
       }else{
-        this.setData({ comment_content: data.data, ly_size: data.data.length,replyData:[] })
+        this.setData({ comment_content: data, ly_size: data.length,replyData:[] })
       }
       
       
@@ -88,8 +88,8 @@ Page({
     const getLikes = await supabase
       .from('like').select('like_val,likers').eq("post_id", post_id);
     if (getLikes && getLikes.data) {
-      if (getLikes.data.data[0] && getLikes.data.data[0].likers) {
-        if (getLikes.data.data[0].likers.indexOf(this.data.name) != -1) {
+      if (getLikes.data[0] && getLikes.data[0].likers) {
+        if (getLikes.data[0].likers.indexOf(this.data.name) != -1) {
           this.setData({ liked: true });
         }
       }
@@ -113,9 +113,9 @@ Page({
     }
     const getLikes = await supabase
       .from('like').select('like_val,likers').eq("post_id", this.data.id);
-    if (getLikes && getLikes.data.data.length > 0) {
-      if (getLikes.data.data[0] && getLikes.data.data[0].likers) {
-        if (getLikes.data.data[0].likers.indexOf(this.data.name) != -1) {
+    if (getLikes && getLikes.data.length > 0) {
+      if (getLikes.data[0] && getLikes.data[0].likers) {
+        if (getLikes.data[0].likers.indexOf(this.data.name) != -1) {
           this.setData({ liked: true });
           return
         }
@@ -123,8 +123,8 @@ Page({
 
       const updateLikes = await supabase
         .from('like').update({
-          like_val: getLikes.data.data[0].like_val + 1,
-          likers: getLikes.data.data[0].likers + this.data.name
+          like_val: getLikes.data[0].like_val + 1,
+          likers: getLikes.data[0].likers + this.data.name
         }).eq("post_id", this.data.id);
 
     } else {
@@ -149,7 +149,7 @@ Page({
     const getViews = await supabase
       .from('page_views').select('views').eq("post_id", this.data.id);
     if (getViews && getViews.data) {
-      views = getViews.data.data[0].views
+      views = getViews.data[0].views
     }
 
     const updateViews = await supabase
@@ -284,13 +284,19 @@ Page({
       } = await supabase.from("comment").insert(params, {
         returning: "minimal", // Don't return the value after inserting
       })
-      if (error && error.statusCode == 201) {
+      if (error) {
+        wx.showToast({
+          title: error.message || '',
+          icon: 'none',
+          duration: 3000
+        });
+        return;
+      }
         this.getCommentList(that.data.id)
         that.setData({
           if_guanbi: false,
           btnDisableed:false,
         })
-      }
     }
   },
 
@@ -340,13 +346,19 @@ Page({
       } = await supabase.from("reply").insert(params, {
         returning: "minimal", // Don't return the value after inserting
       })
-      if (error && error.statusCode == 201) {
+      if (error) {
+        wx.showToast({
+          title: error.message || '',
+          icon: 'none',
+          duration: 3000
+        });
+        return;
+      }
         this.getCommentList(that.data.id)
         that.setData({
           hui_guan: !that.data.hui_guan,
           btnDisableed:false,
         })
-      }
     }
   },
 

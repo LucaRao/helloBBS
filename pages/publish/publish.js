@@ -145,6 +145,7 @@ Page({
       }
       that.setData({btnDisableed:true})
       const {
+        data,
         error
       } = await supabase.from("post_list").insert({
         userName: that.data.name,
@@ -152,17 +153,18 @@ Page({
         content: e.detail.value.textarea,
         content_imgs: imageList.length ? JSON.stringify(imageList) : '',
         avatar: that.data.touxing_img
-      })
-      if (error.statusCode != 200 && error.statusCode != 201) {
+      }).select()
+      if (error) {
         wx.showToast({
+          title: error.message || '',
           icon: 'none',
-          title: '发布失败，请重新发布',
-        })
+          duration: 3000
+        });
         return
       } else {
         //首页用关系型sql通过浏览量查post,在这里顺便在每一条创建一条浏览数，要不然首页查不到新增的post
         await supabase.from("page_views").insert({
-          views: 0, post_id: error.data[0].id
+          views: 0, post_id: data[0].id
         })
       }
       that.setData({

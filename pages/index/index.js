@@ -88,14 +88,21 @@ Page({
       })
       //默认
       if (postType == '默认' || postType == '最新') {
-        const viewsdata = await supabase
+        const { data, error} = await supabase
           .from('page_views')
           .select(`
         views,
         post_list (id,times,userName,tag_val,content,avatar,content_imgs).order('times')
       `);
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+      if (error) {
+        wx.showToast({
+          title: error.message || '',
+          icon: 'none',
+          duration: 3000
+        });
+        return;
+      }
+          data.forEach(async (i) => {
             i.post_list.views = i.views ? i.views : 0;
             i.post_list.times = formatTime(i.post_list.times)
             i.post_list.commit_val = await this.getCommentList(i.post_list.id);
@@ -106,25 +113,23 @@ Page({
               datas: viewsList
             })
           })
-
-          console.log(this.data.datas)
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
         //最新
       } else if (postType == '热门') {
-        const viewsdata = await supabase
+        const { data, error} = await supabase
           .from('page_views')
           .select(`
           views,
           post_list (id,times,userName,tag_val,content,avatar,content_imgs)
         `).order('views', { ascending: false });
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+        if (error) {
+          wx.showToast({
+            title: error.message || '',
+            icon: 'none',
+            duration: 3000
+          });
+          return;
+        }
+          data.forEach(async (i) => {
             i.post_list.views = i.views ? i.views : 0;
             i.post_list.times = formatTime(i.post_list.times)
             i.post_list.commit_val = await this.getCommentList(i.post_list.id);
@@ -135,22 +140,22 @@ Page({
               datas: viewsList
             })
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
       }else if (postType == '我的') {
-        const viewsdata = await supabase
+        const { data, error} = await supabase
           .from('page_views')
           .select(`
           views,
           post_list (id,times,userName,tag_val,content,avatar,content_imgs)
         `).order('views', { ascending: false });
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+        if (error) {
+          wx.showToast({
+            title: error.message || '',
+            icon: 'none',
+            duration: 3000
+          });
+          return;
+        }
+          data.forEach(async (i) => {
             if (i.post_list.userName == this.data.name) {
             i.post_list.views = i.views ? i.views : 0;
             i.post_list.times = formatTime(i.post_list.times)
@@ -163,13 +168,6 @@ Page({
             })
             }
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
       }
 
     } else if (tagType == '生活') {
@@ -179,14 +177,21 @@ Page({
       })
       if (postType == '默认' || postType == '最新') {
         //默认
-        const viewsdata = await supabase
+        const { data, error} = await supabase
           .from('page_views')
           .select(`
       views,
       post_list (id,times,userName,tag_val,content,avatar,content_imgs)
     `);
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+    if (error) {
+      wx.showToast({
+        title: error.message || '',
+        icon: 'none',
+        duration: 3000
+      });
+      return;
+    }
+          data.forEach(async (i) => {
             if (i.post_list.tag_val == '生活') {
               i.post_list.views = i.views ? i.views : 0;
               i.post_list.times = formatTime(i.post_list.times)
@@ -199,23 +204,24 @@ Page({
               })
             }
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
+
         //最新
       } else if (postType == '热门') {
-        const viewsdata = await supabase
+        const { data, error} = await supabase
           .from('page_views')
           .select(`
           views,
           post_list (id,times,userName,tag_val,content,avatar,content_imgs)
         `).order('views', { ascending: false });
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+        if (error) {
+          wx.showToast({
+            title: error.message || '',
+            icon: 'none',
+            duration: 3000
+          });
+          return;
+        }
+         data.forEach(async (i) => {
             if (i.post_list.tag_val == '生活') {
               i.post_list.views = i.views ? i.views : 0;
               i.post_list.times = formatTime(i.post_list.times)
@@ -228,22 +234,23 @@ Page({
               })
             }
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
+
       }else if (postType == '我的') {
-        const viewsdata = await supabase
+        const { data, error} = await supabase
           .from('page_views')
           .select(`
           views,
           post_list (id,times,userName,tag_val,content,avatar,content_imgs)
         `).order('views', { ascending: false });
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+        if (error) {
+          wx.showToast({
+            title: error.message || '',
+            icon: 'none',
+            duration: 3000
+          });
+          return;
+        }
+          data.forEach(async (i) => {
             if (i.post_list.userName == this.data.name && i.post_list.tag_val == '生活') {
             i.post_list.views = i.views ? i.views : 0;
             i.post_list.times = formatTime(i.post_list.times)
@@ -256,13 +263,6 @@ Page({
             })
             }
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
       }
     } else if (tagType == '学习') {
       let viewsList = [];
@@ -272,14 +272,21 @@ Page({
       //默认
       if (postType == '默认' || postType == '最新') {
         //默认
-        const viewsdata = await supabase
+        const { data, error}  = await supabase
           .from('page_views')
           .select(`
       views,
       post_list (id,times,userName,tag_val,content,avatar,content_imgs).eq('tag_val', '学习').order('times')
     `);
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+    if (error) {
+      wx.showToast({
+        title: error.message || '',
+        icon: 'none',
+        duration: 3000
+      });
+      return;
+    }
+          data.forEach(async (i) => {
             if (i.post_list.tag_val == '学习') {
               i.post_list.views = i.views ? i.views : 0;
               i.post_list.times = formatTime(i.post_list.times)
@@ -292,23 +299,23 @@ Page({
               })
             }
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
         //最新
       } else if (postType == '热门') {
-        const viewsdata = await supabase
+        const {data ,error} = await supabase
           .from('page_views')
           .select(`
           views,
           post_list (id,times,userName,tag_val,content,avatar,content_imgs)
         `).order('views', { ascending: false });
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+        if (error) {
+          wx.showToast({
+            title: error.message || '',
+            icon: 'none',
+            duration: 3000
+          });
+          return;
+        }
+          data.forEach(async (i) => {
             if (i.post_list.tag_val == '学习') {
               i.post_list.views = i.views ? i.views : 0;
               i.post_list.times = formatTime(i.post_list.times)
@@ -321,22 +328,22 @@ Page({
               })
             }
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
       }else if (postType == '我的') {
-        const viewsdata = await supabase
+        const {data,error} = await supabase
           .from('page_views')
           .select(`
           views,
           post_list (id,times,userName,tag_val,content,avatar,content_imgs)
         `).order('views', { ascending: false });
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+        if (error) {
+          wx.showToast({
+            title: error.message || '',
+            icon: 'none',
+            duration: 3000
+          });
+          return;
+        }
+          data.forEach(async (i) => {
             if (i.post_list.userName == this.data.name && i.post_list.tag_val == '学习') {
             i.post_list.views = i.views ? i.views : 0;
             i.post_list.times = formatTime(i.post_list.times)
@@ -349,13 +356,6 @@ Page({
             })
             }
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
       }
     } else if (tagType == '问答') {
       let viewsList = [];
@@ -365,14 +365,21 @@ Page({
       //默认
       if (postType == '默认' || postType == '最新') {
         //默认
-        const viewsdata = await supabase
+        const {data,error} = await supabase
           .from('page_views')
           .select(`
       views,
       post_list (id,times,userName,tag_val,content,avatar,content_imgs)
     `);
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+    if (error) {
+      wx.showToast({
+        title: error.message || '',
+        icon: 'none',
+        duration: 3000
+      });
+      return;
+    }
+          data.forEach(async (i) => {
             if (i.post_list.tag_val == '问答') {
               i.post_list.views = i.views ? i.views : 0;
               i.post_list.times = formatTime(i.post_list.times)
@@ -385,23 +392,23 @@ Page({
               })
             }
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
         //最新
       } else if (postType == '热门') {
-        const viewsdata = await supabase
+        const {data,error} = await supabase
           .from('page_views')
           .select(`
           views,
           post_list (id,times,userName,tag_val,content,avatar,content_imgs)
         `).order('views', { ascending: false });
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+        if (error) {
+          wx.showToast({
+            title: error.message || '',
+            icon: 'none',
+            duration: 3000
+          });
+          return;
+        }
+          data.forEach(async (i) => {
             if (i.post_list.tag_val == '问答') {
               i.post_list.views = i.views ? i.views : 0;
               i.post_list.times = formatTime(i.post_list.times)
@@ -414,22 +421,22 @@ Page({
               })
             }
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
       }else if (postType == '我的') {
-        const viewsdata = await supabase
+        const {data,error} = await supabase
           .from('page_views')
           .select(`
           views,
           post_list (id,times,userName,tag_val,content,avatar,content_imgs)
         `).order('views', { ascending: false });
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+        if (error) {
+          wx.showToast({
+            title: error.message || '',
+            icon: 'none',
+            duration: 3000
+          });
+          return;
+        }
+          data.forEach(async (i) => {
             if (i.post_list.userName == this.data.name && i.post_list.tag_val == '问答') {
             i.post_list.views = i.views ? i.views : 0;
             i.post_list.times = formatTime(i.post_list.times)
@@ -442,13 +449,6 @@ Page({
             })
             }
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
       }
     } else if (tagType == '情感') {
       let viewsList = [];
@@ -458,14 +458,21 @@ Page({
       //默认
       if (postType == '默认' || postType == '最新') {
         //默认
-        const viewsdata = await supabase
+        const {data,error} = await supabase
           .from('page_views')
           .select(`
       views,
       post_list (id,times,userName,tag_val,content,avatar,content_imgs)
     `);
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+    if (error) {
+      wx.showToast({
+        title: error.message || '',
+        icon: 'none',
+        duration: 3000
+      });
+      return;
+    }
+          data.forEach(async (i) => {
             if (i.post_list.tag_val == '情感') {
               i.post_list.views = i.views ? i.views : 0;
               i.post_list.times = formatTime(i.post_list.times)
@@ -478,23 +485,23 @@ Page({
               })
             }
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
         //最新
       } else if (postType == '热门') {
-        const viewsdata = await supabase
+        const {data,error} = await supabase
           .from('page_views')
           .select(`
           views,
           post_list (id,times,userName,tag_val,content,avatar,content_imgs)
         `).order('views', { ascending: false });
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+        if (error) {
+          wx.showToast({
+            title: error.message || '',
+            icon: 'none',
+            duration: 3000
+          });
+          return;
+        }
+          data.forEach(async (i) => {
             if (i.post_list.tag_val == '情感') {
               i.post_list.views = i.views ? i.views : 0;
               i.post_list.times = formatTime(i.post_list.times)
@@ -507,22 +514,22 @@ Page({
               })
             }
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
       }else if (postType == '我的') {
-        const viewsdata = await supabase
+        const {data,error} = await supabase
           .from('page_views')
           .select(`
           views,
           post_list (id,times,userName,tag_val,content,avatar,content_imgs)
         `).order('views', { ascending: false });
-        if (viewsdata.data) {
-          viewsdata.data.data.forEach(async (i) => {
+        if (error) {
+          wx.showToast({
+            title: error.message || '',
+            icon: 'none',
+            duration: 3000
+          });
+          return;
+        }
+          data.forEach(async (i) => {
             if (i.post_list.userName == this.data.name && i.post_list.tag_val == '情感') {
             i.post_list.views = i.views ? i.views : 0;
             i.post_list.times = formatTime(i.post_list.times)
@@ -535,13 +542,6 @@ Page({
             })
             }
           })
-        } else {
-          wx.showToast({
-            title: error.data.msg || '',
-            icon: 'none',
-            duration: 3000
-          });
-        }
       }
     }
   },
@@ -550,8 +550,8 @@ Page({
     const { data, error } = await supabase
       .from('comment')
       .select('*').eq("post_id", post_id);
-    if (data && data.data) {
-      return data.data.length ? data.data.length : 0
+    if (data) {
+      return data.length ? data.length : 0
     }
   },
   //获取点赞数量
@@ -559,17 +559,17 @@ Page({
     const { data, error } = await supabase
       .from('like')
       .select('like_val').eq("post_id", post_id);
-    if (data && data.data) {
-      return data.data[0] ? data.data[0].like_val : 0
+    if (data) {
+      return data[0] ? data[0].like_val : 0
     }
   },
   //获取文章类型选项
   // async get_tags() {
   //   const logData = await supabase.from('label_tag').select('name').order('created_at');
   //   if (logData && logData.data) {
-  //     logData.data.data.unshift({ name: '全部' })
+  //     logData.data.unshift({ name: '全部' })
   //     this.setData({
-  //       tabList: logData.data.data
+  //       tabList: logData.data
   //     })
   //   }
   // },
