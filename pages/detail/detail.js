@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    replydata:[],
     if_del_val: false,
     if_guanbi: false,
     hui_guan: false,
@@ -74,10 +75,10 @@ Page({
       data.forEach(i => {
         i.created_at = formatTime(i.created_at)
       })
-      if(replyData && replydata){
-        this.setData({ comment_content: data, ly_size: data.length,replyData:replydata.data})
+      if(replyData && this.data.replydata.length>0){
+        this.setData({ comment_content: data, ly_size: data.length,replydata:replyData.data})
       }else{
-        this.setData({ comment_content: data, ly_size: data.length,replyData:[] })
+        this.setData({ comment_content: data, ly_size: data.length,replydata:[] })
       }
       
       

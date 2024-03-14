@@ -1,0 +1,25 @@
+{
+  "name": "hellobbs",
+  "version": "1.0.0",
+  "description": "helloBBS是一个可以对生活、学习、问答、情感发出任何表达的小论坛",
+  "main": ".eslintrc.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucaRao/helloBBS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LucaRao/helloBBS/issues"
+  },
+  "homepage": "https://github.com/LucaRao/helloBBS#readme",
+  "dependencies": {
+    "supabase-wechat-stable-v2": "^2.1.6"
+  }
+}
